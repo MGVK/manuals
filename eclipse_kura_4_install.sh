@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #install dependencies
-sudo apt install isc-dhcp-server dos2unix bind9 ethtool telnet bluez-hcidump hostapd
+sudo apt install isc-dhcp-server dos2unix bind9 ethtool telnet bluez-hcidump hostapd unzip iw wireless-tools
 
 
 cd /tmp
