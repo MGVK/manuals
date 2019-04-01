@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install -y liblzo2-dev libpam0g-dev unzip
+sudo apt install -y liblzo2-dev libpam0g-dev unzip gcc libssl-dev net-tools
 
 wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.7.zip
 
