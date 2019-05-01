@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install -y liblzo2-dev libpam0g-dev unzip gcc libssl-dev net-tools
+sudo apt install -y liblzo2-dev libpam0g-dev unzip gcc libssl1.0-dev net-tools
 
 wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.7.zip
 
@@ -8,7 +8,7 @@ unzip openvpn-2.4.7.zip
 
 cd openvpn-2.4.7/
 
- ./configure && sudo make && sudo make install 
+./configure && sudo make && sudo make install 
 
 printf "[Unit]
 Description=OpenVPN service
@@ -25,7 +25,7 @@ WorkingDirectory=/etc/openvpn
 WantedBy=multi-user.target" > openvpn.service
 
 printf "[Unit]
-Description=OpenVPN connection to %i
+Description=OpenVPN connection to %s
 PartOf=openvpn.service
 ReloadPropagatedFrom=openvpn.service
 Before=systemd-user-sessions.service
@@ -33,13 +33,15 @@ Documentation=man:openvpn(8)
 Documentation=https://community.openvpn.net/openvpn/wiki/Openvpn23ManPage
 Documentation=https://community.openvpn.net/openvpn/wiki/HOWTO
 
+
+
 [Service]
 PrivateTmp=true
 KillMode=mixed
 Type=forking
 ExecStartPre= /bin/bash -c 'if [ ! -d /run/openvpn ]; then  mkdir /run/openvpn; fi'
-ExecStart=/usr/local/sbin/openvpn --daemon ovpn-%i --status /run/openvpn/%i.status 10 --cd /etc/openvpn --script-security 2 --config /etc/openvpn/%i.conf --writepid /run/openvpn/%i.pid
-PIDFile=/run/openvpn/%i.pid
+ExecStart=/usr/local/sbin/openvpn --daemon ovpn-%s --status /run/openvpn/%s.status 10 --cd /etc/openvpn --script-security 2 --config /etc/openvpn/%s.conf --writepid /run/openvpn/%s.pid
+PIDFile=/run/openvpn/%s.pid
 ExecReload=/bin/kill -HUP $MAINPID
 WorkingDirectory=/etc/openvpn
 ProtectSystem=yes
@@ -49,10 +51,10 @@ DeviceAllow=/dev/null rw
 DeviceAllow=/dev/net/tun rw
 
 [Install]
-WantedBy=multi-user.target " > openvpn@.service
+WantedBy=multi-user.target " %i %i %i %i %i %i > openvpn@.service
 
 #uncomment this if you want to work with systemctl
 
 sudo cp openvpn.service /lib/systemd/system/openvpn.service
-sudo cp openvpn.service /lib/systemd/system/openvpn@.service
+sudo cp openvpn@.service /lib/systemd/system/openvpn@.service
 
