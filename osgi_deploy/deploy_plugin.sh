@@ -9,9 +9,6 @@ function init () {
 
  cd $PLUGINS_FOLDER
 
- # HOSTS=(192.168.1.34 192.168.1.74)
- # HOSTS=(192.168.1.74)
-
 
  HOSTS=(30.0.3.3 30.0.3.5)
  USERS=(pi root)
